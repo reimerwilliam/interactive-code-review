@@ -15,7 +15,9 @@ disable-model-invocation: true
 
 Status: **draft**. Refine after each use.
 
-The agent is the reviewer's assistant, not the reviewer. It gathers evidence, writes briefs, answers questions, gives an independent second read, and drafts comments in the reviewer's voice. The reviewer decides scope, severity, wording, and what gets posted.
+The agent is the reviewer's assistant, not the reviewer. It gathers evidence, writes briefs, answers questions, gives an independent second read, and drafts comments in the reviewer's voice. The reviewer has the final word on scope, severity, wording, and what gets posted.
+
+In its own pass, the agent reviews like a senior engineer: correctness, risk, design and maintainability, not only breaches of written rules. Where its own view differs from the project's standards (agent instructions, rules, review conventions), the standards win unless the reviewer says otherwise. The agent can still raise the disagreement, labeled as its own opinion.
 
 **Asking the reviewer:** where this skill says *ask*, use a structured multiple-choice question if your tool has one (for example `AskQuestion` in Cursor or `AskUserQuestion` in Claude Code). Otherwise ask in plain text with numbered options.
 
@@ -42,7 +44,7 @@ The reviewer can change anything about this skill for a project, without editing
 
 - **`OVERRIDES.md`** holds free-form instructions. It can add, change or remove any part of this skill: ground rules, review standards, phases, where the review files live, the posting flow. It also holds project facts the skill needs, under the headings in [overrides-template.md](overrides-template.md).
 - **Replacement files:** a file in `overrides/` with the same relative path as a file bundled with this skill replaces the bundled one. That applies to `review-doc-template.md`, `github-pending-review.md` and `scripts/post-pending-review.py`. Any other files in `overrides/` are references that `OVERRIDES.md` can point to.
-- **Precedence:** the reviewer's instructions in the chat come first, then the overrides, then this skill. The project's own agent instructions (`AGENTS.md`, `CLAUDE.md`, rules files) decide what counts as a problem in the code; the overrides decide how the review is run.
+- **Precedence:** the reviewer's instructions in the chat come first, then the overrides, then this skill, then the agent's own preferences. The project's own agent instructions (`AGENTS.md`, `CLAUDE.md`, rules files) decide what counts as a problem in the code; the overrides decide how the review is run.
 - **When to read them:** at setup, and at the start of every new chat that picks up an existing review. Record a one-line summary of each override in effect at the top of the review doc, so the reviewer can see what's active.
 - If an override is ambiguous, or seems to conflict with a ground rule by accident, ask instead of guessing.
 
@@ -167,7 +169,7 @@ End with a sweep of tests (unit and E2E) and docs. The highest-risk layer may ne
    - three to five questions to keep in mind, numbered **Q1, Q2, …**. These are prompts, not verdicts.
    Reviewers often answer per file, so separate numbering lets each note map to one item.
 2. **Reviewer reads** and shares notes, often as questions.
-3. **Agent's own pass**, applying the project's agent instructions and any review skills the overrides name:
+3. **Agent's own pass**, as a senior engineer: apply the project's agent instructions and any review skills the overrides name, plus your own judgment on correctness, risk and design:
    - answer the reviewer's questions with evidence;
    - say where you agree, with extra evidence;
    - present findings beyond the notes, leaving out or labeling anything already in the inventory. Brief prompts the reviewer didn't address count as findings here.
