@@ -17,7 +17,7 @@ The skill is the folder `skills/interactive-code-review/`. Each tool reads globa
 ### With the `skills` CLI
 
 ```bash
-npx skills add <owner>/interactive-code-review -g
+npx skills add reimerwilliam/interactive-code-review -g
 ```
 
 This copies the skill to `~/.agents/skills/` and links it into the tools it detects. Afterwards, run `/skills` in Antigravity to check it's listed: the CLI may use an older Antigravity path than the one below.
